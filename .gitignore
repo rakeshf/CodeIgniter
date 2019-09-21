@@ -7,6 +7,7 @@ application/logs/*
 !application/logs/index.html
 
 !application/*/.htaccess
+application/vendor/
 
 composer.lock
 
@@ -20,12 +21,15 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 #-------------------------
 /nbproject/
 .idea/*
-
+.vscode/
 ## Sublime Text cache files
 *.tmlanguage.cache
 *.tmPreferences.cache
 *.stTheme.cache
 *.sublime-workspace
 *.sublime-project
+*.code-workspace
 /tests/tests/
 /tests/results/
+## Settings
+.env
