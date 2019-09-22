@@ -1,11 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Welcome extends CI_Controller {
+class Welcome extends MY_Controller {
 
 	function __construct() {
 		parent::__construct();
-		$this->load->library(['google', 'facebook']);
 	}
 
 	/**
@@ -25,26 +24,13 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->load->helper(['form', 'url', 'chorlogin_helper']);
-		$this->load->library('form_validation');
-		$data['google_login_url'] = $this->google->get_login_url();
-		$data['facebook_login_url'] = $this->facebook->login_url();
-		$config = login_validation();
-		$this->form_validation->set_rules($config);
-
-		if ($this->form_validation->run() == FALSE)
-		{
-			$this->load->view('chorbazaar_login', $data);
-		}
-		else
-		{
-			$this->load->view('chorbazaar_denied');
-		}
-		
-		$this->load->view('welcome_message');
+		$data['canonical'] = null;
+		$data['module'] = 'themes/default/welcome';
+		$data['page'] = 'index';
+		$this->load->view('themes/default/layout', $data);
 	}
 
-	public function profile()
+	public function login()
 	{
 		$google_data = $this->google->validate();
 		print_r($google_data);die;

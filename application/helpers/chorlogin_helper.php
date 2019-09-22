@@ -17,9 +17,12 @@ if (!function_exists('login_validation')) {
     return 
     $config = [
       [
-        'field' => 'username',
-        'label' => 'Username',
-        'rules' => 'required'
+        'field' => 'email',
+        'label' => 'Email',
+        'rules' => 'required',
+        'errors' => [
+          'required' => 'You must provide a %s.',
+        ],
       ],
       [
         'field' => 'password',
