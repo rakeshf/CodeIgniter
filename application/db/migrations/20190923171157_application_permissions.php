@@ -2,7 +2,7 @@
 
 use Phinx\Migration\AbstractMigration;
 
-class Users extends AbstractMigration
+class ApplicationPermissions extends AbstractMigration
 {
 	/**
 	 * Change Method.
@@ -31,18 +31,9 @@ class Users extends AbstractMigration
 	 */
 	public function change()
 	{
-		$users = $this->table('users');
-		$users
-			->addColumn('username', 'string', ['limit' => 50, 'null' => false])
-			->addColumn('password', 'string', ['limit' => 255, 'null' => false])
-			->addColumn('email', 'string', ['limit' => 100, 'null' => false])
-			->addColumn('role_id', 'integer', ['null' => true, 'default' => 0])
-			->addColumn('source', 'string', ['limit' => 40])
-			->addColumn('created', 'timestamp', ['null' => false, 'default' => 'CURRENT_TIMESTAMP'])
-			->addColumn('is_active', 'boolean', ['null' => false, 'signed' => false, 'default' => 0]);
-
-		$users->addIndex(['username', 'email'], ['unique' => true]);
-
-		$users->create();
+		$appPermissions = $this->table('app_permissions')
+			->addColumn('role_id', 'integer')
+			->addColumn('resource_id', 'integer')
+			->create();
 	}
 }

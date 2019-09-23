@@ -2,7 +2,7 @@
 
 use Phinx\Migration\AbstractMigration;
 
-class Users extends AbstractMigration
+class Category extends AbstractMigration
 {
 	/**
 	 * Change Method.
@@ -31,18 +31,14 @@ class Users extends AbstractMigration
 	 */
 	public function change()
 	{
-		$users = $this->table('users');
-		$users
-			->addColumn('username', 'string', ['limit' => 50, 'null' => false])
-			->addColumn('password', 'string', ['limit' => 255, 'null' => false])
-			->addColumn('email', 'string', ['limit' => 100, 'null' => false])
-			->addColumn('role_id', 'integer', ['null' => true, 'default' => 0])
-			->addColumn('source', 'string', ['limit' => 40])
-			->addColumn('created', 'timestamp', ['null' => false, 'default' => 'CURRENT_TIMESTAMP'])
-			->addColumn('is_active', 'boolean', ['null' => false, 'signed' => false, 'default' => 0]);
-
-		$users->addIndex(['username', 'email'], ['unique' => true]);
-
-		$users->create();
+		$category = $this->table('category');
+		$category->addColumn('name', 'string', ['limit' => 100])
+			->addColumn('parent_id', 'integer', ['null' => true, 'default' => 0])
+			->addColumn('meta_tag', 'string', ['limit' => 100])
+			->addColumn('meta_desc', 'string', ['limit' => 160])
+			->addColumn('is_active', 'boolean', ['null' => false, 'signed' => false, 'default' => 1])
+			->addColumn('created', 'datetime', ['null' => false, 'default' => 'CURRENT_TIMESTAMP'])
+			->addColumn('updated', 'datetime', ['null' => true])
+			->create();
 	}
 }

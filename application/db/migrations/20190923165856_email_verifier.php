@@ -2,7 +2,7 @@
 
 use Phinx\Migration\AbstractMigration;
 
-class Users extends AbstractMigration
+class EmailVerifier extends AbstractMigration
 {
 	/**
 	 * Change Method.
@@ -31,18 +31,13 @@ class Users extends AbstractMigration
 	 */
 	public function change()
 	{
-		$users = $this->table('users');
-		$users
-			->addColumn('username', 'string', ['limit' => 50, 'null' => false])
-			->addColumn('password', 'string', ['limit' => 255, 'null' => false])
-			->addColumn('email', 'string', ['limit' => 100, 'null' => false])
-			->addColumn('role_id', 'integer', ['null' => true, 'default' => 0])
-			->addColumn('source', 'string', ['limit' => 40])
-			->addColumn('created', 'timestamp', ['null' => false, 'default' => 'CURRENT_TIMESTAMP'])
-			->addColumn('is_active', 'boolean', ['null' => false, 'signed' => false, 'default' => 0]);
-
-		$users->addIndex(['username', 'email'], ['unique' => true]);
-
-		$users->create();
+		$emailVerifier = $this->table('email_verifier')
+			->addColumn('user_id', 'integer')
+			->addColumn('url', 'string', ['limit' => 1000])
+			->addColumn('code', 'string', ['limit' => 60])
+			->addColumn('type',  'string', ['limit' => 100]) // activation, password reset
+			->addColumn('expire', 'timestamp')
+			->addColumn('created', 'timestamp', ['default' => 'CURRENT_TIMESTAMP'])
+			->create();
 	}
 }
