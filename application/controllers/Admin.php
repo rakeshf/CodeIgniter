@@ -10,6 +10,7 @@ class Admin extends MY_Controller
 	{
 		parent::__construct();
 		$this->load->library(['google', 'facebook']);
+		$this->load->helper('url');
 		$this->load->config('assets');
 		$this->data['google_login_url'] = $this->google->get_login_url();
 		$this->data['facebook_login_url'] = $this->facebook->login_url();
@@ -37,6 +38,19 @@ class Admin extends MY_Controller
 
 	public function dashboard()
 	{
+		$this->load->model('users/user', 'users');
+		$this->load->library('pagination');
+		// custom paging configuration
+		$this->load->helper('pagination_helper');
+		$config = pagination_config();
+		$config['base_url'] = '/admin/dashboard/';
+		$config['total_rows'] = $this->users->get_count();
+		$config['uri_segment'] = 3;
+		$config['per_page'] = 1;
+		$this->pagination->initialize($config);
+		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+		$this->data['results'] = $this->users->get_user_list($config["per_page"], $page);
+		$this->data['pager'] = $this->pagination->create_links();
 		$this->data['module'] = 'themes/admin/admin';
 		$this->data['page'] = 'dashboard';
 		$this->load->view('themes/admin/layout', $this->data);
