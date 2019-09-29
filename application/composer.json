@@ -5,7 +5,8 @@
         "vlucas/phpdotenv": "^3.6",
         "almasaeed2010/adminlte": "^2.4",
         "fzaninotto/faker": "^1.8",
-        "league/event": "^2.2"
+        "league/event": "^2.2",
+        "predis/predis": "^1.1"
     },
     "require-dev": {
         "robmorgan/phinx": "^0.11.1"

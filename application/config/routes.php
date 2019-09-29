@@ -49,11 +49,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
+// User login and other pages
 $route['default_controller'] = 'welcome';
 $route['login'] = 'auth/login';
 $route['profile'] = 'auth/profile';
+$route['auth/access-denied'] = 'auth/access_denied';
+// Admin pages
+$route['admin/login'] = 'Admin_Controller/login';
+$route['admin/dashboard'] = 'Admin_Controller/dashboard';
+$route['admin/dashboard/(:num)'] = 'Admin_Controller/dashboard/$1';
+// CURD for location
+$route['admin/locations'] = 'Locations_Controller/index';
+$route['admin/locations/(:num)'] = 'Locations_Controller/index/$1';
+$route['admin/locations/add'] = 'Locations_Controller/add_location';
+$route['admin/locations/(:num)/edit'] = 'Locations_Controller/edit_location/$1';
+$route['admin/locations/(:num)/delete'] = 'Locations_Controller/delete_location/$1';
+$route['admin/locations/(:num)/active'] = 'Locations_Controller/active_location/$1';
+$route['admin/locations/(:num)/inactive'] = 'Locations_Controller/inactive_location/$1';
+// CURD for category
+$route['admin/category'] = 'Category_Controller/index';
+$route['admin/category/(:num)'] = 'Category_Controller/index/$1';
+$route['admin/category/(:num)'] = 'Category_Controller/index/$1';
+$route['admin/category/add'] = 'Category_Controller/add_category';
+$route['admin/category/(:num)/edit'] = 'Category_Controller/edit_category/$1';
+$route['admin/category/(:num)/delete'] = 'Category_Controller/delete_category/$1';
+$route['admin/category/(:num)/active'] = 'Category_Controller/active_category/$1';
+// Other settings
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
-
-$route['admin/login'] = 'admin/login';
-$route['admin/dashboard'] = 'admin/dashboard';

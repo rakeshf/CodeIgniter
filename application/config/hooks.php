@@ -18,10 +18,10 @@ $hook['pre_system'] = function () {
 /*
 * Login check
 */
-/*$hook['post_controller_constructor'][] = [
+$hook['post_controller_constructor'][] = [
   'class'    => 'Loginchecker',
   'function' => 'loginCheck',
   'filename' => 'Loginchecker.php',
   'filepath' => 'hooks',
   'params'   => []
-];*/
+];

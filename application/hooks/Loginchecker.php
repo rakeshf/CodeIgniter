@@ -20,16 +20,14 @@ class Loginchecker
   {
     $controller = $this->CI->uri->rsegment(1);
     $action     = $this->CI->uri->rsegment(2);
-
+    $arg     = $this->CI->uri->rsegment(3);
     if ($this->CI->session->userdata('user_id')) {
-      // Check for ACL
-      if (!$this->CI->acl->hasAccess()) {
-        if ($controller != 'dashboard' && in_array($controller . '/' . $action, $this->CI->acl->getGuestPages())) {
-          return redirect('/dashboard');
-        }
+      // Check for ACL      
+      if (!$this->CI->acl->hasAccess() && !in_array($controller . '/' . $action, $this->CI->acl->getGuestPages())) {
+        return redirect('auth/access-denied');
       }
     } else {
-      if ($controller != 'login' && !in_array($controller . '/' . $action, $this->CI->acl->getGuestPages())) {
+      if (!in_array($controller . '/' . $action, $this->CI->acl->getGuestPages())) {
         return redirect('/login');
       }
     }

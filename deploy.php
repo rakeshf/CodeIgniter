@@ -13,8 +13,8 @@ set('repository', 'https://github.com/rakeshf/CodeIgniter.git');
 set('git_tty', true); 
 
 // Shared files/dirs between deploys 
-add('shared_files', []);
-add('shared_dirs', ['assets']);
+add('shared_files', ['application/.env']);
+add('shared_dirs', []);
 
 // Writable dirs by web server 
 add('writable_dirs', []);
@@ -26,11 +26,11 @@ host('chorbazaar-aws')
     ->set('deploy_path', '{{application}}');    
     
 // Tasks
-
-task('build', function () {
-    run('cd {{release_path}} && build');
+desc('Build application');
+task('deploy:build', function () {
+    run('cd {{release_path}}/application && {{bin/composer}} install');
 });
 
 // [Optional] if deploy fails automatically unlock.
-after('deploy:failed', 'deploy:unlock');
+after('deploy','deploy:build','deploy:failed', 'deploy:unlock');
 

@@ -8,7 +8,7 @@ class Auth extends MY_Controller
 	{
 		parent::__construct();
 		$this->load->library(['google', 'facebook']);
-		$this->data['page_title'] = 'Auth pages'
+		$this->data['page_title'] = 'Auth pages';
 	}
 
 	public function login()
@@ -24,16 +24,16 @@ class Auth extends MY_Controller
 			$this->data['module'] = 'themes/default/auth';
 			$this->data['page'] = 'login';
 		} else {
-			$this->data['module'] = 'themes/default/auth';
-			$this->data['page'] = 'failed';
+			$this->data['module'] = 'themes/default';
+			$this->data['page'] = 'error_403';
 		}
 		$this->load->view('themes/default/layout', $this->data);
 	}
 
-	public function profile()
+	public function access_denied()
 	{
 		$this->data['module'] = 'themes/default/auth';
-		$this->data['page'] = 'failed';
+		$this->data['page'] = 'error_403';
 		$this->load->view('themes/default/layout', $this->data);
 	}
 }

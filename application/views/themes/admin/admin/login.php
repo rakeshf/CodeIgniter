@@ -2,11 +2,13 @@
   <div class="login-logo">
     <a href="#"><b>Admin</b>LTE</a>
   </div>
-  <?php //echo validation_errors(); ?>
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
       <p class="login-box-msg">Sign in to start your session</p>
+      <?php if(!empty($error)): ?>
+      <p class="login-box-msg"><?php echo $error; ?></p>
+      <?php endif; ?>
       <?php echo form_open('admin/login'); ?>
         <?php echo form_error('email'); ?>
         <div class="input-group mb-3">

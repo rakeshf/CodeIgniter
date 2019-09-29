@@ -23,11 +23,26 @@ class Welcome extends MY_Controller {
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
 	public function index()
-	{
-		$data['canonical'] = null;
-		$data['module'] = 'themes/default/welcome';
-		$data['page'] = 'index';
-		$this->load->view('themes/default/layout', $data);
+	{	
+		$ads = [
+			[
+				'title' => 'Iphone 6s for sale',
+				'details' => 'This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.'
+			],
+			[
+				'title' => 'Iphone 6s for sale',
+				'details' => 'This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.'
+			],
+			[
+				'title' => 'Iphone 6s for sale',
+				'details' => 'This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.'
+			],	
+		];
+		$this->data['canonical'] = null;
+		$this->data['module'] = 'themes/default/welcome';
+		$this->data['page'] = 'index';
+		$this->data['ads'] = $ads;
+		$this->load->view('themes/default/layout', $this->data);
 	}
 
 	public function login()

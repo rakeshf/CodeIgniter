@@ -9,34 +9,14 @@ class Acl
 
   protected $userRoleId = NULL;
 
-  protected $guestPages = [
-    'auth/login'
-  ];
+  protected $pageUrl = NULL;
 
-  protected $_config = [
-    'acl_table_users' => 'users',
-    'acl_users_fields' => [
-      'id' => 'id',
-      'role_id' => 'role_id'
-    ],
-    'acl_table_resources' => 'resources',
-    'acl_resources_fields' => [
-      'id' => 'id',
-      'controller' => 'controller'
-    ],
-    'acl_table_permissions' => 'permissions',
-    'acl_permissions_fields' => [
-      'id' => 'id',
-      'resource_id' => 'resource_id',
-      'action' => 'action'
-    ],
-    'acl_table_role_permissions' => 'role_permissions',
-    'acl_role_permissions_fields' => [
-      'id' => 'id',
-      'role_id' => 'role_id',
-      'permission_id' => 'permission_id'
-    ],
-    'acl_user_session_key' => 'user_id'
+  protected $guestPages = [
+    'auth/login',
+    'Admin_Controller/login',
+    'auth/profile',
+    'auth/access_denied',
+    'welcome/index'
   ];
 
   /**
@@ -47,24 +27,11 @@ class Acl
   public function __construct($config = array())
   {
     $this->CI = &get_instance();
-
     // Load Session library
     $this->CI->load->library('session');
-
     // Load ACL model
-    $this->CI->load->model('acl_model');
+    $this->CI->load->model('users/permissions_model', 'permissions');
   }
-
-  public function getAclConfig($key = NULL)
-  {
-    if ($key) {
-      return $this->_config[$key];
-    }
-
-    return $this->_config;
-  }
-
-  // --------------------------------------------------------------------
 
   /**
    * Check is controller/method has access for role
@@ -74,23 +41,30 @@ class Acl
    * @return bool
    */
   public function hasAccess()
-  {
+  {  
+    $key = 0;
     if ($this->getUserId()) {
-
-      $permissions = $this->CI->acl_model->getRolePermissions($this->getUserRoleId());
-
-      if (count($permissions) > 0) {
+      $permissions = $this->CI->permissions->getUserAppPermissions($this->getUserRoleId());
+      $hasPermissions = $this->getHasPermissions($permissions);
+      if (count($hasPermissions) > 0) {
         $currentPermission = $this->CI->uri->rsegment(1) . '/' . $this->CI->uri->rsegment(2);
-        if (in_array($currentPermission, $permissions)) {
+        if (in_array($currentPermission, $hasPermissions)) {
           return TRUE;
         }
       }
     }
-
     return FALSE;
   }
 
-  // --------------------------------------------------------------------
+  public function getHasPermissions($permissions)
+  {
+    $hasPermissions = [];
+    foreach($permissions as $values)
+    {
+      $hasPermissions[$values['id']] = $values['controller'] . '/' . $values['action'];
+    }
+    return $hasPermissions;
+  }
 
   /**
    * Return the value of user id from the session.
@@ -102,17 +76,13 @@ class Acl
   private function getUserId()
   {
     if ($this->userId == NULL) {
-      $this->userId = $this->CI->session->userdata($this->_config['acl_user_session_key']);
-
+      $this->userId = $this->CI->session->userdata('user_id');
       if ($this->userId === FALSE) {
         $this->userId = NULL;
       }
     }
-
     return $this->userId;
   }
-
-  // --------------------------------------------------------------------
 
   /**
    * Return user role
@@ -123,13 +93,11 @@ class Acl
   {
     if ($this->userRoleId == NULL) {
       // Set the role
-      $this->userRoleId = $this->CI->acl_model->getUserRoleId($this->getUserId());
-
+      $this->userRoleId = $this->CI->session->userdata('role_id');
       if (!$this->userRoleId) {
         $this->userRoleId = 0;
       }
     }
-
     return $this->userRoleId;
   }
 
