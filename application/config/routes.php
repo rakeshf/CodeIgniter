@@ -58,6 +58,11 @@ $route['auth/access-denied'] = 'auth/access_denied';
 $route['admin/login'] = 'Admin_Controller/login';
 $route['admin/dashboard'] = 'Admin_Controller/dashboard';
 $route['admin/dashboard/(:num)'] = 'Admin_Controller/dashboard/$1';
+$route['admin/resources'] = 'Admin_Controller/resources';
+$route['admin/resources/(:num)'] = 'Admin_Controller/resources/$1';
+$route['admin/resources/add'] = 'Admin_Controller/add_resources';
+
+
 // CURD for location
 $route['admin/locations'] = 'Locations_Controller/index';
 $route['admin/locations/(:num)'] = 'Locations_Controller/index/$1';

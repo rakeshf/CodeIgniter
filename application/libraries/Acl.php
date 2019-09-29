@@ -16,7 +16,8 @@ class Acl
     'Admin_Controller/login',
     'auth/profile',
     'auth/access_denied',
-    'welcome/index'
+    'welcome/index',
+    'Admin_Controller/add_resources'
   ];
 
   /**
